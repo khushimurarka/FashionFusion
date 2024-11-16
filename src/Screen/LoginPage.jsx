@@ -34,6 +34,7 @@ const LoginPage = ({ navigation }) => {
   };
 
   return (
+    <LinearGradient colors={["#FDF0F3", "#FFFBFC"]} style={styles.container}>
     <ImageBackground 
       source={backgroundImage} // Use the constant image
       style={styles.background}

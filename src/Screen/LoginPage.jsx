@@ -5,6 +5,15 @@ import { AuthContext } from '../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from "expo-linear-gradient";
 
+const colorsArray = [
+  "#91A1B0",
+  "#B11D1D",
+  "#1F44A3",
+  "#9F632A",
+  "#1D752B",
+  "#000000",
+];
+
 const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -2,6 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -9,6 +10,9 @@ const LoginPage = ({ navigation }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn } = useContext(AuthContext);
+
+  // Define the image as a constant
+  const backgroundImage = require('../assets/welcome.jpeg');
 
   const handleLogin = async () => {
     if (!username.trim() || !password.trim()) {
@@ -30,47 +34,49 @@ const LoginPage = ({ navigation }) => {
 
   return (
     <ImageBackground 
-      source={require('../assets/welcome.jpeg')} // Path to your background image
+      source={backgroundImage} // Use the constant image
       style={styles.background}
     >
-      <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <TextInput
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="username"
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          style={styles.input}
-          textContentType="password"
-        />
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={handleLogin} 
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Login</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.secondaryButton} 
-          onPress={() => navigation.navigate('SignUp')} // Ensure this matches your route name
-        >
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Login</Text>
+          <TextInput
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+            style={styles.input}
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="username"
+          />
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+            textContentType="password"
+          />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <TouchableOpacity 
+            style={styles.button} 
+            onPress={handleLogin} 
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Login</Text>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.secondaryButton} 
+            onPress={() => navigation.navigate('SignUp')} // Ensure this matches your route name
+          >
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </ImageBackground>
   );
 };
@@ -78,17 +84,20 @@ const LoginPage = ({ navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover', // Or 'contain', depending on your image
+    resizeMode: 'cover', // Maintain aspect ratio of the image
     justifyContent: 'center',
+  },
+  safeArea: {
+    flex: 1,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Slightly transparent background to improve text readability
+    marginHorizontal: 20, // Avoid content touching screen edges
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparent background to improve readability
     borderRadius: 10,
-    marginHorizontal: 20, // Add some margin to avoid content touching screen edges
   },
   title: {
     fontSize: 28,
